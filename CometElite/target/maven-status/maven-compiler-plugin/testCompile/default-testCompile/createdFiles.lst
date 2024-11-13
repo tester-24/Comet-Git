@@ -1,0 +1,5 @@
+playwright\CometElite\BaseTest.class
+playwright\CometElite\CometTests.class
+playwright\CometElite\SingleRun.class
+playwright\CometElite\ParallelTesting.class
+playwright\CometElite\SingleRun$1.class
