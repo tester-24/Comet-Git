@@ -1,0 +1,31 @@
+name: Run Playwright Tests
+
+on:
+  schedule:
+    - cron: '0 9 * * *'  # Schedule to run daily at 3 AM UTC (change as per your time zone)
+  workflow_dispatch:  # Allows for manual trigger
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # Use an Ubuntu runner for your tests
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Java (JDK 21 for your project)
+      - name: Set up JDK 21
+        uses: actions/setup-java@v2
+        with:
+          java-version: '21'
+
+      # Step 3: Set up Maven
+      - name: Set up Maven
+        uses: actions/setup-maven@v2
+        with:
+          maven-version: '3.8.1'
+
+      # Step 4: Install dependencies and run tests
+      - name: Install dependencies and run tests
+        run: mvn clean test
