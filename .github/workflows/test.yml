@@ -2,8 +2,8 @@ name: Run Playwright Tests
 
 on:
   schedule:
-    - cron: '0 9 * * *'  # Schedule to run daily at 3 AM UTC (change as per your time zone)
-  workflow_dispatch:  # Allows for manual trigger
+    - cron: '0 3 * * *'  # Schedule to run daily at 3 AM UTC
+  workflow_dispatch:  # Allows manual trigger
 
 jobs:
   test:
@@ -14,18 +14,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Step 2: Set up Java (JDK 21 for your project)
-      - name: Set up JDK 21
+      # Step 2: Set up JDK 21 with Maven
+      - name: Set up JDK 21 and Maven
         uses: actions/setup-java@v2
         with:
           java-version: '21'
+          distribution: 'temurin'  # This is the default distribution for setup-java
+          cache: 'maven'  # Optional caching for Maven dependencies
 
-      # Step 3: Set up Maven
-      - name: Set up Maven
-        uses: actions/setup-maven@v2
-        with:
-          maven-version: '3.9.9'
-
-      # Step 4: Install dependencies and run tests
+      # Step 3: Install dependencies and run tests
       - name: Install dependencies and run tests
         run: mvn clean test
