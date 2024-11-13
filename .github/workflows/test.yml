@@ -24,7 +24,7 @@ jobs:
       - name: Set up Maven
         uses: actions/setup-maven@v2
         with:
-          maven-version: '3.8.1'
+          maven-version: '3.9.9'
 
       # Step 4: Install dependencies and run tests
       - name: Install dependencies and run tests
