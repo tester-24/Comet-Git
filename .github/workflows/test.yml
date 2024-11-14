@@ -53,3 +53,16 @@ jobs:
         run: |
           cd CometElite  # Navigate to the directory containing the pom.xml
           xvfb-run mvn clean test  # Run tests with xvfb
+          
+      - name: Upload Extent Report to S3
+        run: |
+          # Install AWS CLI if not already installed
+          sudo apt-get install awscli
+
+          # Set up AWS CLI with credentials (using secrets)
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set region ${{ secrets.AWS_REGION }}
+
+          # Upload the report (adjust the file path based on your report location)
+          aws s3 cp ./CometElite/target/extent-report.html s3://your-bucket-name/reports/extent-report-$(date +'%Y-%m-%d_%H-%M-%S').html
