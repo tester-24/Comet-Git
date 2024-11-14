@@ -180,7 +180,8 @@ public class SingleRun {
         // Recipient's email ID
         String[] recipients = {
                 "ashish.test.p@gmail.com",
-                "tester3.elitetechno@gmail.com"
+                "tester3.elitetechno@gmail.com",
+		"tester4.elitetechno@gmail.com"
         };
 
         String from = "tester4.elitetechno@gmail.com";
