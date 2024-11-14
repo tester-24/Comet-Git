@@ -22,6 +22,8 @@ jobs:
           distribution: 'temurin'  # This is the default distribution for setup-java
           cache: 'maven'  # Optional caching for Maven dependencies
 
-      # Step 3: Install dependencies and run tests
+      # Step 3: Navigate to the project directory, install dependencies, and run tests
       - name: Install dependencies and run tests
-        run: mvn clean test
+        run: |
+          cd Comet-Git  # Change this to your project directory if it's different
+          mvn clean test
