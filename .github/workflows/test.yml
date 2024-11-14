@@ -18,10 +18,10 @@ jobs:
       - name: Install required libraries
         run: |
            sudo apt update
-          sudo add-apt-repository universe  # Add the universe repository
-          sudo apt update
+           sudo add-apt-repository universe  # Add the universe repository
+           sudo apt update
 
-          sudo apt install -y \
+           sudo apt install -y \
             libwoff2 libvpx7 libevent-2.1-7 libopus0 \
             libgstallocators* libgstapp* libgstpbutils* \
             libgstaudio* libgstgl* libgsttag* libgstvideo* \
