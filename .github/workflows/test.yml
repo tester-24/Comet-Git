@@ -40,6 +40,10 @@ jobs:
             libgles2-mesa \
             xvfb
 
+          # Install AWS CLI and verify installation
+          sudo apt-get install -y awscli
+          aws --version  # This line ensures AWS CLI is installed and avoids errors from incomplete commands
+        
       # Step 3: Set up JDK 21 with Maven cache
       - name: Set up JDK 21 and Maven cache
         uses: actions/setup-java@v3
