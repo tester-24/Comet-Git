@@ -18,15 +18,16 @@ jobs:
       - name: Install required libraries
         run: |
            sudo apt update
-        sudo add-apt-repository universe  # Enable universe repository for multimedia packages
         sudo apt update
+          sudo add-apt-repository universe  # Enable universe repository for multimedia packages
+          sudo apt update
 
-        sudo apt install -y \
-          libwoff2 libvpx7 libevent-2.1-7 libopus0 \
-          libgstallocators* libgstapp* libgstpbutils* \
-          libgstaudio* libgstgl* libgsttag* libgstvideo* \
-          libgstcodecparsers* libgstfft* libharfbuzz-icu0 libhyphen0 \
-          libflite1 libgles2 libx264 xvfb
+          sudo apt install -y \
+            libwoff2 libvpx7 libevent-2.1-7 libopus0 \
+            libgstallocators* libgstapp* libgstpbutils* \
+            libgstaudio* libgstgl* libgsttag* libgstvideo* \
+            libgstcodecparsers* libgstfft* libharfbuzz-icu0 libhyphen0 \
+            libflite1 libgles2 libx264 xvfb
 
       # Step 3: Set up JDK 21 with Maven cache
       - name: Set up JDK 21 and Maven cache
