@@ -94,7 +94,7 @@ public class SingleRun {
         node.info("Attempting to log in with credentials.");
         page.getByText("LOGIN WITH SPACE").click();
         page.getByPlaceholder("Enter User ID").fill("1126");
-        page.getByPlaceholder("Enter Password").fill("Jainam@123");
+        page.getByPlaceholder("Enter Password").fill("Jainam@12");
         page.getByText("Login Now").click();
 
         // Wait for the toast message that indicates login failure
