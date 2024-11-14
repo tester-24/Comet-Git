@@ -2,7 +2,7 @@ name: Run Playwright Tests
 
 on:
   schedule:
-    - cron: '*/30 * * * *'  # Schedule to run daily at 3 AM UTC
+    - cron: '0 */6 * * *'  # This runs the workflow every 6 hours
   workflow_dispatch:  # Allows manual trigger
 
 jobs:
@@ -42,7 +42,7 @@ jobs:
 
           # Install AWS CLI and verify installation
           sudo apt-get install -y awscli
-          aws --version || true  # This line ensures AWS CLI is installed and avoids errors from incomplete commands
+          aws sts get-caller-identity || echo "AWS CLI is installed but the command failed"
         
       # Step 3: Set up JDK 21 with Maven cache
       - name: Set up JDK 21 and Maven cache
