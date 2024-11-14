@@ -12,7 +12,7 @@ jobs:
     steps:
       # Step 1: Checkout the repository
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Step 2: Install dependencies
       - name: Install required libraries
@@ -42,7 +42,7 @@ jobs:
 
       # Step 3: Set up JDK 21 with Maven cache
       - name: Set up JDK 21 and Maven cache
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           java-version: '21'
           distribution: 'temurin'  # This is the default distribution for setup-java
