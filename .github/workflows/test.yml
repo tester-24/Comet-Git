@@ -14,7 +14,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Step 2: Set up JDK 21 with Maven cache
+      # Step 2: Install dependencies
+      - name: Install required libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwoff2-1 libvpx7 libevent-2.1-7 libopus0 \
+            libgstallocators-1.0-0 libgstapp-1.0-0 libgstpbutils-1.0-0 \
+            libgstaudio-1.0-0 libgstgl-1.0-0 libgsttag-1.0-0 libgstvideo-1.0-0 \
+            libgstcodecparsers-1.0-0 libgstfft-1.0-0 libharfbuzz-icu0 libhyphen0 \
+            libflite1 libGLESv2-2 libx264-160 xvfb
+
+      # Step 3: Set up JDK 21 with Maven cache
       - name: Set up JDK 21 and Maven cache
         uses: actions/setup-java@v2
         with:
@@ -22,8 +33,8 @@ jobs:
           distribution: 'temurin'  # This is the default distribution for setup-java
           cache: 'maven'  # Optional caching for Maven dependencies
 
-      # Step 3: Navigate to the project directory, install dependencies, and run tests
+      # Step 4: Navigate to the project directory and run tests
       - name: Install dependencies and run tests
         run: |
           cd CometElite  # Navigate to the directory containing the pom.xml
-          mvn clean test
+          xvfb-run mvn clean test  # Run tests with xvfb
