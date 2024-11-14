@@ -18,8 +18,7 @@ jobs:
       - name: Install required libraries
         run: |
            sudo apt update
-        sudo apt update
-          sudo add-apt-repository universe  # Enable universe repository for multimedia packages
+          sudo add-apt-repository universe  # Add the universe repository
           sudo apt update
 
           sudo apt install -y \
