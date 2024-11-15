@@ -57,6 +57,14 @@ jobs:
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
           az extension add --name azure-devops  # Install Azure DevOps extension for CLI
           echo $(AZURE_DEVOPS_TOKEN) | az devops login  # Authenticate using the PAT stored in GitHub Secret
+          Secrets
+
+      # Step 5: Verify Azure CLI and Extensions
+
+      - name: Verify Azure CLI installation
+        run: |
+          az --version
+          az extension list
                 
       # Step 4: Navigate to the project directory and run tests
       - name: Install dependencies and run tests
