@@ -52,11 +52,12 @@ jobs:
           distribution: 'temurin'  # This is the default distribution for setup-java
           cache: 'maven'  # Optional caching for Maven dependencies
 
-      - name: Install Azure CLI and Authenticate with Azure DevOps
+      - name: Install Azure CLI and authenticate with Azure DevOps
         run: |
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-          echo $(AZURE_DEVOPS_TOKEN) | az devops login  # Use the PAT stored in GitHub Secrets
-          
+          az extension add --name azure-devops  # Install Azure DevOps extension for CLI
+          echo $(AZURE_DEVOPS_TOKEN) | az devops login  # Authenticate using the PAT stored in GitHub Secrets
+                
       # Step 4: Navigate to the project directory and run tests
       - name: Install dependencies and run tests
         run: |
