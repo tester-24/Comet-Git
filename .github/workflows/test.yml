@@ -75,12 +75,14 @@ jobs:
 
       - name: Upload test results to Azure DevOps
         run: |
-          az devops test run create \
-            --project "your-azure-devops-project" \
-            --plan-id "your-test-plan-id" \
-            --suite-id "your-test-suite-id" \
-            --results-file "./CometElite/target/test-classes/test-report.xml" \
-            --detect
+          az artifacts universal publish \
+            --organization https://dev.azure.com/Jainam \
+            --project "Automation" \
+            --feed "<feed-name>" \
+            --name "test-results" \
+            --version "1.0.0" \
+            --description "Playwright test results" \
+            --path ".CometElite/target/surefire-reports/TEST-*.xml"
         env:
           AZURE_DEVOPS_TOKEN: ${{ secrets.AZURE_DEVOPS_TOKEN }}
           
