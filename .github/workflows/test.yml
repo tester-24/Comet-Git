@@ -52,11 +52,27 @@ jobs:
           distribution: 'temurin'  # This is the default distribution for setup-java
           cache: 'maven'  # Optional caching for Maven dependencies
 
+      - name: Install Azure CLI and Authenticate with Azure DevOps
+        run: |
+          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+          echo $(AZURE_DEVOPS_TOKEN) | az devops login  # Use the PAT stored in GitHub Secrets
+          
       # Step 4: Navigate to the project directory and run tests
       - name: Install dependencies and run tests
         run: |
           cd CometElite  # Navigate to the directory containing the pom.xml
           xvfb-run mvn clean test  # Run tests with xvfb
+
+      - name: Upload Test Results to Azure DevOps
+        run: |
+          az devops test run create \
+            --project "your-azure-devops-project" \
+            --plan-id "your-test-plan-id" \
+            --suite-id "your-test-suite-id" \
+            --file-path "./CometElite/target/test-classes/test-report.xml" \
+            --detect
+        env:
+          AZURE_DEVOPS_TOKEN: ${{ secrets.AZURE_DEVOPS_TOKEN }}
           
       - name: Upload Extent Report to S3
         run: |
