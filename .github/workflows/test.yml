@@ -56,7 +56,7 @@ jobs:
         run: |
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
           az extension add --name azure-devops  # Install Azure DevOps extension for CLI
-          echo $(AZURE_DEVOPS_TOKEN) | az devops login  # Authenticate using the PAT stored in GitHub Secrets
+          echo $(AZURE_DEVOPS_TOKEN) | az devops login  # Authenticate using the PAT stored in GitHub Secret
                 
       # Step 4: Navigate to the project directory and run tests
       - name: Install dependencies and run tests
@@ -70,7 +70,7 @@ jobs:
             --project "your-azure-devops-project" \
             --plan-id "your-test-plan-id" \
             --suite-id "your-test-suite-id" \
-            --file-path "./CometElite/target/test-classes/test-report.xml" \
+            --results-file "./CometElite/target/test-classes/test-report.xml" \
             --detect
         env:
           AZURE_DEVOPS_TOKEN: ${{ secrets.AZURE_DEVOPS_TOKEN }}
