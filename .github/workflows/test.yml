@@ -52,15 +52,16 @@ jobs:
           distribution: 'temurin'  # This is the default distribution for setup-java
           cache: 'maven'  # Optional caching for Maven dependencies
 
-      - name: Install Azure CLI and authenticate with Azure DevOps
+    # Step 4: Install Azure CLI and authenticate with Azure DevOps
+      - name: Install and authenticate Azure CLI
         run: |
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-          az extension add --name azure-devops  # Install Azure DevOps extension for CLI
-          echo $(AZURE_DEVOPS_TOKEN) | az devops login  # Authenticate using the PAT stored in GitHub Secret
-          Secrets
+          az extension add --name azure-devops  # Install Azure DevOps extension
+          echo "${{ secrets.AZURE_DEVOPS_TOKEN }}" | az devops login
+        env:
+          AZURE_DEVOPS_TOKEN: ${{ secrets.AZURE_DEVOPS_TOKEN }}
 
       # Step 5: Verify Azure CLI and Extensions
-
       - name: Verify Azure CLI installation
         run: |
           az --version
@@ -72,7 +73,7 @@ jobs:
           cd CometElite  # Navigate to the directory containing the pom.xml
           xvfb-run mvn clean test  # Run tests with xvfb
 
-      - name: Upload Test Results to Azure DevOps
+      - name: Upload test results to Azure DevOps
         run: |
           az devops test run create \
             --project "your-azure-devops-project" \
@@ -94,4 +95,4 @@ jobs:
           aws configure set region ${{ secrets.AWS_REGION }}
 
           # Upload the report (adjust the file path based on your report location)
-          aws s3 cp ./CometElite/target/extent-report.html s3://your-bucket-name/reports/extent-report-$(date +'%Y-%m-%d_%H-%M-%S').html
+          aws s3 cp ./CometElite/target/extent-report.html s3://comet-reports/reports/extent-report-$(date +'%Y-%m-%d_%H-%M-%S').html
