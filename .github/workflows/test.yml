@@ -40,9 +40,6 @@ jobs:
             libgles2-mesa \
             xvfb
 
-          # Install AWS CLI and verify installation
-          sudo apt-get install -y awscli
-          aws sts get-caller-identity || echo "AWS CLI is installed but the command failed"
         
       # Step 3: Set up JDK 21 with Maven cache
       - name: Set up JDK 21 and Maven cache
@@ -51,21 +48,6 @@ jobs:
           java-version: '21'
           distribution: 'temurin'  # This is the default distribution for setup-java
           cache: 'maven'  # Optional caching for Maven dependencies
-
-    # Step 4: Install Azure CLI and authenticate with Azure DevOps
-      - name: Install and authenticate Azure CLI
-        run: |
-          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-          az extension add --name azure-devops  # Install Azure DevOps extension
-          echo "${{ secrets.AZURE_DEVOPS_TOKEN }}" | az devops login
-        env:
-          AZURE_DEVOPS_TOKEN: ${{ secrets.AZURE_DEVOPS_TOKEN }}
-
-      # Step 5: Verify Azure CLI and Extensions
-      - name: Verify Azure CLI installation
-        run: |
-          az --version
-          az extension list
                 
       # Step 4: Navigate to the project directory and run tests
       - name: Install dependencies and run tests
@@ -73,28 +55,6 @@ jobs:
           cd CometElite  # Navigate to the directory containing the pom.xml
           xvfb-run mvn clean test  # Run tests with xvfb
 
-      - name: Upload test results to Azure DevOps
-        run: |
-          az artifacts universal publish \
-            --organization https://dev.azure.com/Jainam \
-            --project "Automation" \
-            --feed "<feed-name>" \
-            --name "test-results" \
-            --version "1.0.0" \
-            --description "Playwright test results" \
-            --path ".CometElite/target/surefire-reports/TEST-*.xml"
-        env:
-          AZURE_DEVOPS_TOKEN: ${{ secrets.AZURE_DEVOPS_TOKEN }}
-          
-      - name: Upload Extent Report to S3
-        run: |
-          # Install AWS CLI if not already installed
-          sudo apt-get install awscli
-
-          # Set up AWS CLI with credentials (using secrets)
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws configure set region ${{ secrets.AWS_REGION }}
 
           # Upload the report (adjust the file path based on your report location)
           aws s3 cp ./CometElite/target/extent-report.html s3://comet-reports/reports/extent-report-$(date +'%Y-%m-%d_%H-%M-%S').html
